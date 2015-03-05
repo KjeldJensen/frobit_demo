@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #/****************************************************************************
 # Keyboard mission script
-# Copyright (c) 2013, Kjeld Jensen <kjeld@frobomind.org>
+# Copyright (c) 2013-2015, Kjeld Jensen <kjeld@frobomind.org>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,7 @@ s(top)   Stop the robot by setting the velocity to zero
 
 Revision
 2013-11-06 KJ First version
+2015-03-05 KJ Added queue_size to rospy.Publisher calls (Indigo compatiblity)
 """
 
 import rospy
@@ -87,17 +88,17 @@ class mission_node():
 		# setup deadman publish topic
 		self.deadman_state = False
 		self.deadman_msg = Bool()
-		self.deadman_pub = rospy.Publisher(deadman_topic, Bool)
+		self.deadman_pub = rospy.Publisher(deadman_topic, Bool, queue_size=1)
 
 		# setup automode publish topic
 		self.automode_msg = Bool()
-		self.automode_pub = rospy.Publisher(automode_topic, Bool)
+		self.automode_pub = rospy.Publisher(automode_topic, Bool, queue_size=1)
 		
 		# setup manual velocity topic
 		self.vel_lin = 0.0
 		self.vel_ang = 0.0
 		self.cmd_vel_msg = TwistStamped()
-		self.cmd_vel_pub = rospy.Publisher(cmd_vel_topic, TwistStamped)
+		self.cmd_vel_pub = rospy.Publisher(cmd_vel_topic, TwistStamped, queue_size=1)
 
 		# setup subscription topic callbacks
 		rospy.Subscriber(kbd_topic, Char, self.on_kbd_topic)

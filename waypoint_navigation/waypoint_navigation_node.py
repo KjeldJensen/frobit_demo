@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #/****************************************************************************
 # Waypoint Navigation
-# Copyright (c) 2013, Kjeld Jensen <kjeld@frobomind.org>
+# Copyright (c) 2013-2015, Kjeld Jensen <kjeld@frobomind.org>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 2013-11-13 KJ Added new launch file parameters for waypoint defaults
               Added support for implement command and wait after wpt arriva.
 2013-12-03 KJ Added ramp up which works like the previous ramp down
+2015-03-05 KJ Added queue_size to rospy.Publisher calls (Indigo compatiblity)
 """
 
 # imports
@@ -104,14 +105,14 @@ class WptNavNode():
 		self.pid_topic = rospy.get_param("~pid_pub",'/fmInformation/wptnav_pid')
 
 		# setup publish topics
-		self.cmd_vel_pub = rospy.Publisher(self.cmdvel_topic, TwistStamped)
+		self.cmd_vel_pub = rospy.Publisher(self.cmdvel_topic, TwistStamped, queue_size=1)
 		self.twist = TwistStamped()
-		self.implement_pub = rospy.Publisher(self.implement_topic, FloatStamped)
+		self.implement_pub = rospy.Publisher(self.implement_topic, FloatStamped, queue_size=1)
 		self.implement = FloatStamped()
-		self.wptnav_status_pub = rospy.Publisher(self.wptnav_status_topic, waypoint_navigation_status)
+		self.wptnav_status_pub = rospy.Publisher(self.wptnav_status_topic, waypoint_navigation_status, queue_size=5)
 		self.wptnav_status = waypoint_navigation_status()
 		self.status_publish_count = 0
-		self.pid_pub = rospy.Publisher(self.pid_topic, FloatArrayStamped)
+		self.pid_pub = rospy.Publisher(self.pid_topic, FloatArrayStamped, queue_size=5)
 		self.pid = FloatArrayStamped()
 		self.pid_publish_count = 0
 
