@@ -1,16 +1,10 @@
 # all files ending with a tilde
 *~
 
-# Ignore Python .pyc
+# all files ending with
 *.pyc
+*.bag
 
-# Ignore doxygen files
-fmDocs/*
-
-# Ignore top-level symbolic link to CMakeLists.txt
-/CMakeLists.txt
-
-.bag
 .project
 .pydevproject
 .cproject
