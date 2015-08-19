@@ -17,16 +17,11 @@ RoboCard based frobits using 1800/700 ohm voltage dividers:
 	<node pkg="rosbag" name="rosbag_record" type="record" args="-a"/>
 
 	<group ns="fmSafety">
-		<node pkg="diff_steering_fault_diagnosis" name="fault_diagnosis" type="diff_steering_fault_diagnosis_node.py" output="screen">
-			<param name="enc_left_sub" value="/fmInformation/encoder_left" />
-			<param name="enc_right_sub" value="/fmInformation/encoder_right" />
-			<param name="imu_sub" value="/fmInformation/imu" />
-    		<param name="critical_fault_pub" value="/fmSafe/critical_fault" />
-		</node>
-
 		<node pkg="basic_incident_handler" name="incident_handler" type="basic_incident_handler_node.py" output="screen">
+    		<param name="deadman_enable" value="True" />
     		<param name="deadman_timeout" value="0.100" />
-    		<param name="deadman_sub" value="/fmUser/deadman" />
+    		<param name="deadman_sub" value="/fmSafe/deadman" />
+    		<param name="critical_fault_enable" value="False" />
     		<param name="critical_fault_timeout" value="0.100" />
     		<param name="critical_fault_sub" value="/fmSafe/critical_fault" />
 			<param name="actuation_enable_pub" value="/fmSafe/actuation_enable" />
@@ -134,7 +129,7 @@ RoboCard based frobits using 1800/700 ohm voltage dividers:
 		<node pkg="frobit_demo" name="mission" type="keyboard_mission_node.py" output="screen">
 			<param name="keyboard_sub" value="/fmHMI/keyboard" />
 			<param name="automode_pub" value="/fmDecision/automode" />
-    		<param name="deadman_pub" value="/fmCommand/deadman" />
+    		<param name="deadman_pub" value="/fmSafe/deadman" />
 			<param name="cmd_vel_pub" value="/fmCommand/cmd_vel" />
             <param name="max_linear_velocity" value="50.7"/>
             <param name="max_angular_velocity" value="50.5"/>

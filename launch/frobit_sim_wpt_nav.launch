@@ -22,7 +22,7 @@
 		<node pkg="frobit_demo" name="mission" type="keyboard_mission_node.py" output="screen">
 			<param name="keyboard_sub" value="/fmHMI/keyboard" />
 			<param name="automode_pub" value="/fmDecision/automode" />
-    		<param name="deadman_pub" value="/fmCommand/deadman" />
+    		<param name="deadman_pub" value="/fmSafe/deadman" />
 			<param name="cmd_vel_pub" value="/fmCommand/cmd_vel" />
             <param name="max_linear_velocity" value="1.0"/>
             <param name="max_angular_velocity" value="0.8"/>
@@ -84,7 +84,6 @@
 		<node pkg="twist_stamped_to_twist" name="converter" type="cmd_vel_converter.py">	
 			<param name="cmd_vel_sub" value="/fmCommand/cmd_vel" />
 			<param name="cmd_vel_pub" value="/cmd_vel" />
-			<param name="deadman_sub" value="/fmCommand/deadman" />
 		</node>
 
 	 	<node pkg="keyboard_interface" type="keyboard_node" name="keyboard">

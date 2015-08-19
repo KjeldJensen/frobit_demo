@@ -8,6 +8,17 @@
 
 	<!-- node pkg="rosbag" name="rosbag_record" type="record" args="-a"/-->
 
+	<group ns="fmSafety">
+		<node pkg="basic_incident_handler" name="incident_handler" type="basic_incident_handler_node.py" output="screen">
+    		<param name="deadman_enable" value="True" />
+    		<param name="deadman_timeout" value="0.100" />
+    		<param name="deadman_sub" value="/fmSafe/deadman" />
+    		<param name="critical_fault_enable" value="False" />
+    		<param name="critical_fault_timeout" value="0.100" />
+    		<param name="critical_fault_sub" value="/fmSafe/critical_fault" />
+			<param name="actuation_enable_pub" value="/fmSafe/actuation_enable" />
+		</node>
+	</group>
 
 	<group ns="fmSensors">
 	</group>
@@ -19,7 +30,7 @@
 		<node pkg="frobit_demo" name="mission" type="keyboard_mission_node.py" output="screen">
 			<param name="keyboard_sub" value="/fmHMI/keyboard" />
 			<param name="automode_pub" value="/fmDecision/automode" />
-    		<param name="deadman_pub" value="/fmCommand/deadman" />
+    		<param name="deadman_pub" value="/fmSafe/deadman" />
 			<param name="cmd_vel_pub" value="/fmCommand/cmd_vel" />
             <param name="max_linear_velocity" value="1.0"/>
             <param name="max_angular_velocity" value="0.8"/>
@@ -79,7 +90,7 @@
 
 	<group ns="fmLib">
 		<node pkg="frobit_sim" name="froboscout_sim" type="frobit_sim_node.py" output="screen" >
-    		<param name="deadman_sub" value="/fmCommand/deadman" />
+    		<param name="actuation_enable_sub" value="/fmSafe/actuation_enable" />
 			<param name="cmd_vel_sub" value="/fmCommand/cmd_vel" />
 			<param name="odom_reset_sub" value="/fmInformation/odom_reset" />
 			<param name="pose_pub" value="/fmKnowledge/pose" />

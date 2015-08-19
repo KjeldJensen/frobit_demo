@@ -83,7 +83,7 @@ class mission_node():
 
 		# get topic names
 		kbd_topic = rospy.get_param("~keyboard_sub", "/fmHMI/keyboard")
-		deadman_topic = rospy.get_param("~deadman_pub", "/fmCommand/deadman")
+		deadman_topic = rospy.get_param("~deadman_pub", "/fmSafe/deadman")
 		automode_topic = rospy.get_param("~automode_pub", "/fmDecision/automode")
 		cmd_vel_topic = rospy.get_param("~cmd_vel_pub", "/fmCommand/cmd_vel")
 
@@ -117,11 +117,11 @@ class mission_node():
 				self.vel_lin = 0.0
 				self.vel_ang = 0.0	 
 				if self.deadman_state == True:
-					rospy.logwarn(rospy.get_name() + ": Disabling actuation")
+					rospy.logwarn(rospy.get_name() + ": Deadman signal deactivated")
 					self.deadman_state = False
 			elif msg.data == self.KEY_e: # enable actuation
 				if self.deadman_state == False:
-					rospy.logwarn(rospy.get_name() + ": Enabling actuation")
+					rospy.logwarn(rospy.get_name() + ": Deadman signal activated")
 					self.deadman_state = True
 			elif msg.data == self.KEY_a:
 				if self.state == self.STATE_MANUAL:
