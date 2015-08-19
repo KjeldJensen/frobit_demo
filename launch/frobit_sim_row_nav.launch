@@ -41,7 +41,6 @@
 		<node pkg="twist_stamped_to_twist" name="converter" type="cmd_vel_converter.py">	
 			<param name="cmd_vel_sub" value="/fmCommand/cmd_vel" />
 			<param name="cmd_vel_pub" value="/cmd_vel" />
-			<param name="deadman_sub" value="/fmCommand/deadman" />
 		</node>
 
 	 	<node pkg="keyboard_interface" type="keyboard_node" name="keyboard">

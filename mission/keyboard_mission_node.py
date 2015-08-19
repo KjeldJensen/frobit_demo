@@ -11,9 +11,9 @@
 #    * Redistributions in binary form must reproduce the above copyright
 #      notice, this list of conditions and the following disclaimer in the
 #      documentation and/or other materials provided with the distribution.
-#    * Neither the name FroboMind nor the
-#      names of its contributors may be used to endorse or promote products
-#      derived from this software without specific prior written permission.
+#    * Neither the name of the copyright holder nor the names of its
+#      contributors may be used to endorse or promote products derived from
+#      this software without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -43,11 +43,13 @@ s(top)   Stop the robot by setting the velocity to zero
 Revision
 2013-11-06 KJ First version
 2015-03-05 KJ Added queue_size to rospy.Publisher calls (Indigo compatiblity)
+2015-03-19 KJ Switched from Bool to BoolStamped messages
 """
 
 import rospy
 from std_msgs.msg import Bool, Char
 from geometry_msgs.msg import TwistStamped
+from msgs.msg import BoolStamped
 
 class mission_node():
 	def __init__(self):
@@ -87,12 +89,12 @@ class mission_node():
 
 		# setup deadman publish topic
 		self.deadman_state = False
-		self.deadman_msg = Bool()
-		self.deadman_pub = rospy.Publisher(deadman_topic, Bool, queue_size=1)
+		self.deadman_msg = BoolStamped()
+		self.deadman_pub = rospy.Publisher(deadman_topic, BoolStamped, queue_size=1)
 
 		# setup automode publish topic
-		self.automode_msg = Bool()
-		self.automode_pub = rospy.Publisher(automode_topic, Bool, queue_size=1)
+		self.automode_msg = BoolStamped()
+		self.automode_pub = rospy.Publisher(automode_topic, BoolStamped, queue_size=1)
 		
 		# setup manual velocity topic
 		self.vel_lin = 0.0
@@ -168,11 +170,13 @@ class mission_node():
 						self.vel_ang = 0.0
 
 	def publish_deadman_message(self):
-		self.deadman_msg = self.deadman_state
+		self.deadman_msg.data = self.deadman_state
+		self.deadman_msg.header.stamp = rospy.get_rostime()
 		self.deadman_pub.publish (self.deadman_msg)
 
 	def publish_automode_message(self):
-		self.automode_msg = (self.state == self.STATE_AUTO)
+		self.automode_msg.data = (self.state == self.STATE_AUTO)
+		self.automode_msg.header.stamp = rospy.get_rostime()
 		self.automode_pub.publish (self.automode_msg)
 
 	def publish_cmd_vel_message(self):

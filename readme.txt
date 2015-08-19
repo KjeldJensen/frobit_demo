@@ -1,4 +1,4 @@
-This readme file contains various notes on the frobit_v2_demo application.
+This readme file contains various notes on the frobit_demo application.
 
 First version: 2014-08-14 by Kjeld Jensen <kjeld@frobomind.org>
 

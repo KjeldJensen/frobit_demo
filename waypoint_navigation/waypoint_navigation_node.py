@@ -6,14 +6,14 @@
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-#	* Redistributions of source code must retain the above copyright
-#	  notice, this list of conditions and the following disclaimer.
-#	* Redistributions in binary form must reproduce the above copyright
-#	  notice, this list of conditions and the following disclaimer in the
-#	  documentation and/or other materials provided with the distribution.
-#	* Neither the name FroboMind nor the
-#	  names of its contributors may be used to endorse or promote products
-#	  derived from this software without specific prior written permission.
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#    * Redistributions in binary form must reproduce the above copyright
+#      notice, this list of conditions and the following disclaimer in the
+#      documentation and/or other materials provided with the distribution.
+#    * Neither the name of the copyright holder nor the names of its
+#      contributors may be used to endorse or promote products derived from
+#      this software without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -34,16 +34,16 @@
               Added support for implement command and wait after wpt arriva.
 2013-12-03 KJ Added ramp up which works like the previous ramp down
 2015-03-05 KJ Added queue_size to rospy.Publisher calls (Indigo compatiblity)
+2015-08-19 KJ Switched from Bool to BoolStamped
 """
 
 # imports
 import rospy
 import numpy as np
-from std_msgs.msg import Bool
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import TwistStamped
 from sensor_msgs.msg import Joy
-from msgs.msg import FloatStamped, FloatArrayStamped, waypoint_navigation_status
+from msgs.msg import BoolStamped, FloatStamped, FloatArrayStamped, waypoint_navigation_status
 from math import pi, atan2
 from waypoint_list import waypoint_list
 from waypoint_navigation import waypoint_navigation
@@ -153,7 +153,7 @@ class WptNavNode():
 		self.wptlist_loaded = False
 
 		# setup subscription topic callbacks
-		rospy.Subscriber(self.automode_topic, Bool, self.on_automode_message)
+		rospy.Subscriber(self.automode_topic, BoolStamped, self.on_automode_message)
 		rospy.Subscriber(self.pose_topic, Odometry, self.on_pose_message)
 		rospy.Subscriber(self.joy_topic, Joy, self.on_joy_message)
 

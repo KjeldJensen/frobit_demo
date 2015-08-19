@@ -16,6 +16,23 @@ RoboCard based frobits using 1800/700 ohm voltage dividers:
 
 	<node pkg="rosbag" name="rosbag_record" type="record" args="-a"/>
 
+	<group ns="fmSafety">
+		<node pkg="diff_steering_fault_diagnosis" name="fault_diagnosis" type="diff_steering_fault_diagnosis_node.py" output="screen">
+			<param name="enc_left_sub" value="/fmInformation/encoder_left" />
+			<param name="enc_right_sub" value="/fmInformation/encoder_right" />
+			<param name="imu_sub" value="/fmInformation/imu" />
+    		<param name="critical_fault_pub" value="/fmSafe/critical_fault" />
+		</node>
+
+		<node pkg="basic_incident_handler" name="incident_handler" type="basic_incident_handler_node.py" output="screen">
+    		<param name="deadman_timeout" value="0.100" />
+    		<param name="deadman_sub" value="/fmUser/deadman" />
+    		<param name="critical_fault_timeout" value="0.100" />
+    		<param name="critical_fault_sub" value="/fmSafe/critical_fault" />
+			<param name="actuation_enable_pub" value="/fmSafe/actuation_enable" />
+		</node>
+	</group>
+
 		<!--node pkg="frobit_plot" name="frobit_plot" type="frobit_plot_node.py" output="screen" >
 			<param name="pose_sub" value="/fmKnowledge/pose" />
 			<param name="gnss_sub" value="/fmInformation/gpgga_tranmerc" />
@@ -187,7 +204,7 @@ RoboCard based frobits using 1800/700 ohm voltage dividers:
 
 		<!-- Frobit interface node -->
 		<node pkg="sdu_frobit_v2" name="frobit" type="frobit_interface_node.py" output="screen" >
-    		<param name="deadman_sub" value="/fmCommand/deadman" />
+    		<param name="actuation_enable_sub" value="/fmCommand/actuation_enable" />
 			<param name="cmd_vel_sub" value="/fmCommand/cmd_vel" />
 			<param name="enc_left_pub" value="/fmInformation/encoder_left" />
 			<param name="enc_right_pub" value="/fmInformation/encoder_right" />
