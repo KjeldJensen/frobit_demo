@@ -4,7 +4,6 @@
 /frobomind/fmProcessors/platform_processing/differential_odometry
 /frobomind/fmExecutors/platform/frobit_waypoint_navigation
 /frobomind/fmControllers/platform/sdu_frobit_v2
-/frobomind/fmSafety/fault_diagnosis/diff_steering_fault_diagnosis
 /frobomind/fmSafety/incident_handler/basic_incident_handler
 /frobomind/fmLib/msgs
 /frobomind/fmLib/kinematics/differential_ifk_lib
