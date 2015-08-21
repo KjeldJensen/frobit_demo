@@ -32,7 +32,7 @@
 	</group>
 
 	<group ns="fmExecutors">
-		<node pkg="frobit_demo" type="waypoint_navigation_node.py" name="wptnav" output="screen">
+		<node pkg="frobit_waypoint_navigation" type="waypoint_navigation_node.py" name="wptnav" output="screen">
 			<param name="automode_sub" value="/fmDecision/automode" />
 			<param name="pose_sub" value="/fmKnowledge/pose" />
 			<param name="joy_sub" value="/fmLib/joy" />

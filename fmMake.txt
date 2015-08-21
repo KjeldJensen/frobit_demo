@@ -2,6 +2,7 @@
 /frobomind/fmSensors/global_sensing/imu/sparkfun_razor_9dof
 /frobomind/fmSensors/global_sensing/imu/vectornav_vn100
 /frobomind/fmProcessors/platform_processing/differential_odometry
+/frobomind/fmExecutors/platform/frobit_waypoint_navigation
 /frobomind/fmSafety/fault_diagnosis/diff_steering_fault_diagnosis
 /frobomind/fmSafety/incident_handler/basic_incident_handler
 /frobomind/fmLib/msgs
