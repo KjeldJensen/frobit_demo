@@ -185,18 +185,6 @@ RoboCard based frobits using 1800/700 ohm voltage dividers:
 	</group>
 
 	<group ns="fmControllers">
-		<!--node pkg="differential_ifk" name="differential_driver" type="differential_ifk_node" output="screen" >
-			<param name="hl_subscriber_topic" value="/fmCommand/cmd_vel"/>
-			<param name="ll_publisher_topic_left" value="/fmSignal/cmd_vel_left"/>
-			<param name="ll_publisher_topic_right" value="/fmSignal/cmd_vel_right"/>
-		</node-->	     
-	</group>
-
-	<group ns="fmLib">
-	 	<node pkg="keyboard_interface" type="keyboard_node" name="keyboard">
-			<param name="keyboard_pub" value="/fmHMI/keyboard" />
-		</node>
-
 		<!-- Frobit interface node -->
 		<node pkg="sdu_frobit_v2" name="frobit" type="frobit_interface_node.py" output="screen" >
 			<param name="actuation_enable_sub" value="/fmSafe/actuation_enable" />
@@ -230,6 +218,12 @@ RoboCard based frobits using 1800/700 ohm voltage dividers:
 			<param name="supply_voltage_scale_factor" value="0.03747" /> 
 			<param name="min_supply_voltage" value="12.1" /> 
 			<param name="show_voltage_interval" value="300" /> 
+		</node>
+	</group>
+
+	<group ns="fmLib">
+	 	<node pkg="keyboard_interface" type="keyboard_node" name="keyboard">
+			<param name="keyboard_pub" value="/fmHMI/keyboard" />
 		</node>
 
 		<!-- frobit serial device and protocol interface -->
