@@ -44,20 +44,22 @@ Revision
 2013-11-06 KJ First version
 2015-03-05 KJ Added queue_size to rospy.Publisher calls (Indigo compatiblity)
 2015-03-19 KJ Switched from Bool to BoolStamped messages
+2015-09-14 KJ Changed automode message type from BoolStamped to IntStamped
+              and default topic name to /fmPlan/automode
 """
 
 import rospy
 from std_msgs.msg import Bool, Char
 from geometry_msgs.msg import TwistStamped
-from msgs.msg import BoolStamped
+from msgs.msg import BoolStamped, IntStamped
 
 class mission_node():
 	def __init__(self):
 		self.update_rate = 20 # [Hz]
 
 		# robot state
-		self.STATE_AUTO = 0
-		self.STATE_MANUAL = 1
+		self.STATE_MANUAL = 0
+		self.STATE_WPTNAV = 1
 		self.state = self.STATE_MANUAL
 
 		# keyboard interface
@@ -84,7 +86,7 @@ class mission_node():
 		# get topic names
 		kbd_topic = rospy.get_param("~keyboard_sub", "/fmHMI/keyboard")
 		deadman_topic = rospy.get_param("~deadman_pub", "/fmSafe/deadman")
-		automode_topic = rospy.get_param("~automode_pub", "/fmDecision/automode")
+		automode_topic = rospy.get_param("~automode_pub", "/fmPlan/automode")
 		cmd_vel_topic = rospy.get_param("~cmd_vel_pub", "/fmCommand/cmd_vel")
 
 		# setup deadman publish topic
@@ -93,8 +95,8 @@ class mission_node():
 		self.deadman_pub = rospy.Publisher(deadman_topic, BoolStamped, queue_size=1)
 
 		# setup automode publish topic
-		self.automode_msg = BoolStamped()
-		self.automode_pub = rospy.Publisher(automode_topic, BoolStamped, queue_size=1)
+		self.automode_msg = IntStamped()
+		self.automode_pub = rospy.Publisher(automode_topic, IntStamped, queue_size=1)
 		
 		# setup manual velocity topic
 		self.vel_lin = 0.0
@@ -125,10 +127,10 @@ class mission_node():
 					self.deadman_state = True
 			elif msg.data == self.KEY_a:
 				if self.state == self.STATE_MANUAL:
-					rospy.logwarn(rospy.get_name() + ": Switching to autonomous mode")
-					self.state = self.STATE_AUTO
+					rospy.logwarn(rospy.get_name() + ": Switching to waypoint navigation mode")
+					self.state = self.STATE_WPTNAV
 			elif msg.data == self.KEY_m:
-				if self.state == self.STATE_AUTO:
+				if self.state == self.STATE_WPTNAV:
 					rospy.logwarn(rospy.get_name() + ": Switching to manual mode")
 					self.state = self.STATE_MANUAL
 					self.vel_lin = 0.0
@@ -175,7 +177,10 @@ class mission_node():
 		self.deadman_pub.publish (self.deadman_msg)
 
 	def publish_automode_message(self):
-		self.automode_msg.data = (self.state == self.STATE_AUTO)
+		if self.state == self.STATE_MANUAL:
+			self.automode_msg.data = 0
+		elif self.state == self.STATE_WPTNAV:
+			self.automode_msg.data = 1
 		self.automode_msg.header.stamp = rospy.get_rostime()
 		self.automode_pub.publish (self.automode_msg)
 

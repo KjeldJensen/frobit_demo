@@ -21,7 +21,7 @@
 	<group ns="fmDecisionMakers">
 		<node pkg="frobit_demo" name="mission" type="keyboard_mission_node.py" output="screen">
 			<param name="keyboard_sub" value="/fmHMI/keyboard" />
-			<param name="automode_pub" value="/fmDecision/automode" />
+			<param name="automode_pub" value="/fmPlan/automode" />
     		<param name="deadman_pub" value="/fmSafe/deadman" />
 			<param name="cmd_vel_pub" value="/fmCommand/cmd_vel" />
             <param name="max_linear_velocity" value="1.0"/>
