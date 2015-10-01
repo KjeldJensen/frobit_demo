@@ -23,7 +23,7 @@ define laser_scanner ranger
    ( 		
       range [ 0.0  4 ]
       fov 270
-      samples 90
+      samples 270
    )
   size [ 0.07 0.07 0.08 ]
 )
