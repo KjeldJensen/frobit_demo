@@ -185,7 +185,7 @@ class mission_node():
 		self.automode_pub.publish (self.automode_msg)
 
 	def publish_cmd_vel_message(self):
-		self.cmd_vel_msg.header.stamp = rospy.Time.now()
+		self.cmd_vel_msg.header.stamp = rospy.get_rostime()
 		self.cmd_vel_msg.twist.linear.x = self.vel_lin
 		self.cmd_vel_msg.twist.angular.z = self.vel_ang
 		self.cmd_vel_pub.publish(self.cmd_vel_msg)
