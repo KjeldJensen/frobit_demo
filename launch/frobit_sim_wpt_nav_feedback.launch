@@ -1,4 +1,14 @@
-<!-- FroboScout launch file -->
+<!-- Frobit simulation launch file -->
+
+<!--
+To use the keyboard as remote controller (default) make sure that the packages:
+	"keyboard_remote_control" and "keyboard_interface" are active.
+	"wiimote_remote_control" and "wiimote" are commented out.
+
+To use a Nintendo Wiimote as remote controller make sure that the packages:
+	"wiimote_remote_control" and "wiimote" are active.
+	"keyboard_remote_control" and "keyboard_interface" are commented out.
+-->
 
 <launch>
 	<!-- frobit parameters --> 
@@ -16,34 +26,59 @@
     		<param name="critical_fault_enable" value="False" />
     		<param name="critical_fault_timeout" value="0.100" />
     		<param name="critical_fault_sub" value="/fmSafe/critical_fault" />
-			<param name="actuation_enable_pub" value="/fmSafe/actuation_enable" />
+		<param name="obstacle_enable" value="False" />
+		<param name="obstacle_timeout" value="0.100" />
+		<param name="obstacle_sub" value="/fmSafe/obstacle" />
+		<param name="actuation_enable_pub" value="/fmSafe/actuation_enable" />
 		</node>
 	</group>
 
 	<group ns="fmSensors">
+		<!-- This is handled by the Frobit simulator -->
 	</group>
 
 	<group ns="fmProcessors">
+		<!-- This is handled by the Frobit simulator -->
 	</group>
 
 	<group ns="fmDecisionMakers">
-		<node pkg="frobit_demo" name="mission" type="keyboard_mission_node.py" output="screen">
-			<param name="keyboard_sub" value="/fmHMI/keyboard" />
+		<node pkg="frobit_wptnav_mission" name="wptnav_mission" type="wptnav_mission_node.py" output="screen">
+			<param name="remote_control_sub" value="/fmHMI/remote_control"/>
+			<param name="remote_control_feedback_pub" value="/fmHMI/remote_control_feedback" />			
 			<param name="automode_pub" value="/fmPlan/automode" />
-    		<param name="deadman_pub" value="/fmSafe/deadman" />
+	    		<param name="deadman_pub" value="/fmSafe/deadman" />
 			<param name="cmd_vel_pub" value="/fmCommand/cmd_vel" />
-            <param name="max_linear_velocity" value="1.0"/>
-            <param name="max_angular_velocity" value="0.8"/>
-            <param name="linear_velocity_step" value="0.1"/>
-            <param name="angular_velocity_step" value="0.2"/>
+			<param name="max_linear_velocity" value="0.7"/>
+			<param name="max_angular_velocity" value="0.6"/>
+			<param name="linear_velocity_step" value="0.1"/>
+			<param name="angular_velocity_step" value="0.2"/>
 		</node>
+
+		<node pkg="keyboard_remote_control" name="kbd_remote" type="keyboard_remote_control_node.py" output="screen" >
+			<param name="keyboard_sub" value="/fmHMI/keyboard"/>
+			<param name="remote_control_pub" value="/fmHMI/remote_control"/>
+		</node>
+	 	<node pkg="keyboard_interface" type="keyboard_node" name="keyboard">
+			<param name="keyboard_pub" value="/fmHMI/keyboard" />
+		</node>
+
+		<!--
+		<node pkg="wiimote_remote_control" name="wiimote_remote" type="wiimote_remote_control_node.py" output="screen" >
+			<param name="wiimote_sub" value="/fmDecisionMakers/joy"/>
+			<param name="remote_control_pub" value="/fmHMI/remote_control"/>
+		</node>
+		<node pkg="wiimote" type="wiimote_node.py" name="wiimote" output="screen" respawn="true">
+			<param name="fixed_wiimote_address" value="00:21:47:F0:56:EC"/> 
+		</node>		
+		-->
+
 	</group>
 
 	<group ns="fmExecutors">
 		<node pkg="frobit_waypoint_navigation" type="waypoint_navigation_node.py" name="wptnav" output="screen">
 			<param name="automode_sub" value="/fmPlan/automode" />
 			<param name="pose_sub" value="/fmKnowledge/pose" />
-			<param name="joy_sub" value="/fmLib/joy" />
+			<param name="remote_control_sub" value="/fmHMI/remote_control" />
 			<param name="cmd_vel_pub" value="/fmCommand/cmd_vel" />
 			<param name="implement_pub" value="/fmCommand/implement" />
 			<param name="status_pub" value="/fmInformation/wptnav_status" />
@@ -52,20 +87,20 @@
 			<param name="pid_publish_interval" value="1" />
 			<param name="print_debug_information" value="false" />
 
-            <param name="max_linear_velocity" value="1.2"/>
-            <param name="max_angular_velocity" value="0.70"/>
+			<param name="max_linear_velocity" value="1.2"/>
+			<param name="max_angular_velocity" value="0.70"/>
 
-            <param name="drive_kp" value="2.2"/>
-            <param name="drive_ki" value="0.5"/>
-            <param name="drive_kd" value="0.8"/>
-            <param name="drive_feed_forward" value="0.00"/>
-            <param name="drive_max_output" value="0.5"/>
+			<param name="drive_kp" value="2.2"/>
+			<param name="drive_ki" value="0.5"/>
+			<param name="drive_kd" value="0.8"/>
+			<param name="drive_feed_forward" value="0.00"/>
+			<param name="drive_max_output" value="0.5"/>
 
-            <param name="turn_kp" value="1.2"/>
-            <param name="turn_ki" value="0.8"/>
-            <param name="turn_kd" value="0.2"/>
-            <param name="turn_feed_forward" value="0.0"/>
-            <param name="turn_max_output" value="2.0"/>
+ 			<param name="turn_kp" value="1.2"/>
+			<param name="turn_ki" value="0.8"/>
+			<param name="turn_kd" value="0.2"/>
+			<param name="turn_feed_forward" value="0.0"/>
+			<param name="turn_max_output" value="2.0"/>
 
 			<param name="wpt_default_mode" value="MCTE" />
 			<param name="wpt_default_tolerance" value="0.20" />
@@ -86,23 +121,20 @@
 	</group>
 
 	<group ns="fmControllers">
+		<!-- This is handled by the Frobit simulator -->
 	</group>
 
 	<group ns="fmLib">
-		<node pkg="frobit_sim" name="froboscout_sim" type="frobit_sim_node.py" output="screen" >
+		<node pkg="frobit_sim" name="frobit_sim" type="frobit_sim_node.py" output="screen" >
     		<param name="actuation_enable_sub" value="/fmSafe/actuation_enable" />
 			<param name="cmd_vel_sub" value="/fmCommand/cmd_vel" />
 			<param name="odom_reset_sub" value="/fmInformation/odom_reset" />
 			<param name="pose_pub" value="/fmKnowledge/pose" />
-            <param name="max_linear_acceleration" value="1.0"/>
-            <param name="max_angular_acceleration" value="1.0"/>
+			<param name="max_linear_acceleration" value="1.0"/>
+			<param name="max_angular_acceleration" value="1.0"/>
 			<param name="wheel_feedback_left_pub" value="/fmInformation/wheel_feedback_left" />
 			<param name="wheel_feedback_right_pub" value="/fmInformation/wheel_feedback_right" />
 			<param name="publish_wheel_feedback_rate" value="50" />
-		</node>
-
-	 	<node pkg="keyboard_interface" type="keyboard_node" name="keyboard">
-			<param name="keyboard_pub" value="/fmHMI/keyboard" />
 		</node>
 
 		<node pkg="plot_velocity" name="plot_vel" type="plot_velocity_node.py" output="screen" >
