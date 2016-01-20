@@ -20,6 +20,7 @@ To use a Nintendo Wiimote as remote controller make sure that the packages:
 	<param name="diff_steer_wheel_distance" value="0.23"/>
 	<param name="ticks_per_meter_left" value="562" />
 	<param name="ticks_per_meter_right" value="562" />
+	<param name="caster_front" value="true"/>
 
 	<node pkg="rosbag" name="rosbag_record" type="record" args="-a"/>
 
@@ -178,7 +179,6 @@ To use a Nintendo Wiimote as remote controller make sure that the packages:
 			<param name="publish_wheel_status_rate" value="10" />
 			<param name="publish_wheel_feedback_rate" value="10" />
 			<param name="publish_wheel_pid_rate" value="10" />
-			<param name="castor_front" value="true"/>
 			<param name="max_linear_acceleration" value="16.2"/>
 			<param name="max_angular_acceleration" value="16.0"/>
 			<param name="wheel_drive_feed_forward" value="85" /> 
