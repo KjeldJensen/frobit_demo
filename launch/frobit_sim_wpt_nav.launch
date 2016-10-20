@@ -55,7 +55,7 @@ To use a Nintendo Wiimote as remote controller make sure that the packages:
 		<node pkg="frobit_wptnav_mission" name="wptnav_mission" type="wptnav_mission_node.py" output="screen">
 			<param name="remote_control_sub" value="/fmHMI/remote_control"/>
 			<param name="remote_control_feedback_pub" value="/fmHMI/remote_control_feedback" />			
-			<param name="automode_pub" value="/fmPlan/automode" />
+			<param name="platform_behaviour_pub" value="/fmDecision/platform_behaviour" />
 	    		<param name="deadman_pub" value="/fmSafe/deadman" />
 			<param name="cmd_vel_pub" value="/fmCommand/cmd_vel" />
 			<param name="max_linear_velocity" value="0.7"/>
@@ -86,7 +86,7 @@ To use a Nintendo Wiimote as remote controller make sure that the packages:
 
 	<group ns="fmExecutors">
 		<node pkg="frobit_waypoint_navigation" type="waypoint_navigation_node.py" name="wptnav" output="screen">
-			<param name="automode_sub" value="/fmPlan/automode" />
+			<param name="platform_behaviour_sub" value="/fmDecision/platform_behaviour" />
 			<param name="pose_sub" value="/fmKnowledge/pose" />
 			<param name="remote_control_sub" value="/fmHMI/remote_control" />
 			<param name="cmd_vel_pub" value="/fmCommand/cmd_vel" />
