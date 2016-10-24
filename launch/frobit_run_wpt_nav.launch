@@ -163,7 +163,7 @@ To use a Nintendo Wiimote as remote controller make sure that the packages:
 
 	<group ns="fmControllers">
 		<!-- Frobit interface node -->
-		<node pkg="sdu_frobit_v2" name="frobit" type="frobit_interface_node.py" output="screen" >
+		<node pkg="sdu_frobit" name="frobit" type="frobit_interface_node.py" output="screen" >
 			<param name="actuation_enable_sub" value="/fmSafe/actuation_enable" />
 			<param name="cmd_vel_sub" value="/fmCommand/cmd_vel" />
 			<param name="enc_left_pub" value="/fmInformation/encoder_left" />
