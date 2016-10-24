@@ -6,7 +6,7 @@
 #/frobomind/fmDecisionMakers/hmi/wiimote_remote_control
 /frobomind/fmDecisionMakers/mission_planners/frobit_wptnav_mission
 /frobomind/fmExecutors/platform/frobit_waypoint_navigation
-/frobomind/fmControllers/platform/sdu_frobit_v2
+/frobomind/fmControllers/platform/sdu_frobit
 /frobomind/fmSafety/incident_handler/basic_incident_handler
 /frobomind/fmLib/msgs
 /frobomind/fmLib/kinematics/differential_ifk_lib
